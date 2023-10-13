@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" Computes the min opeations for copy psste tasks """
 
 
 def minOperations(n):
