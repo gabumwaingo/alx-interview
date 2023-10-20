@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+""" log parsing by using multiple func """
 
 import re
 
