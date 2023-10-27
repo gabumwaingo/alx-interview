@@ -2,10 +2,11 @@
 
 
 def validUTF8(data):
-    """ Checks if a list hs valid utf chars """
+    """ Validates list of ints to check utf compatibility """
     bytes_to_follow = 0
 
     for num in data:
+        """ Check if it's a starting byte """
         if bytes_to_follow == 0:
             if (num >> 7) == 0b0:
                 bytes_to_follow = 0
@@ -18,8 +19,10 @@ def validUTF8(data):
             else:
                 return False
         else:
+            """ Check if it's a following byte """
             if (num >> 6) != 0b10:
                 return False
             bytes_to_follow -= 1
 
     return bytes_to_follow == 0
+
