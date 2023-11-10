@@ -1,32 +1,27 @@
 #!/usr/bin/node
-//fetching data frok the star wars api
-
 
 const request = require('request');
-const filmurl = 'https://swapi-api.alx-tools.com/api/films/${process.argv[2]}';
 
-request(filmurl, (error, response, body) => {
-	if (error) 
-		console.log(error);
-	else {
-		console.log(body);
-		try {
-			const filmData = JSON.parse(body);
-			const characters = filmData.characters;
+const req = (arr, i) => {
+  if (i === arr.length) return;
+  request(arr[i], (err, response, body) => {
+    if (err) {
+      throw err;
+    } else {
+      console.log(JSON.parse(body).name);
+      req(arr, i + 1);
+    }
+  });
+};
 
-			characters.forEach(characterurl => {
-				request(characterUrl, (error, response, characterBody) => {
-					if (!error && response.statusCode == 200){
-						const characterData = JSON.parse(characterBody);
-						console.log(characterData.name);
-					} else {
-						console.log('Error fetching the characters: ${error}');
-				}
-			});
-		});
-		} catch (ParseError) {
-			console.log('Error parsing filmData: ${parseError}');
-		}
-	}
-
-});
+request(
+  `https://swapi-api.hbtn.io/api/films/${process.argv[2]}`,
+  (err, response, body) => {
+    if (err) {
+      throw err;
+    } else {
+      const chars = JSON.parse(body).characters;
+      req(chars, 0);
+    }
+  }
+);
